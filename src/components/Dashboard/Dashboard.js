@@ -70,22 +70,23 @@ export default function Dashboard({ user, onSignOut }) {
   ];
 
   // Effect to cycle through animation steps
-  useEffect(() => {
-    let interval;
-    if (processingState.active) {
-      interval = setInterval(() => {
-        setProcessingState(prevState => {
-          const nextStep = prevState.step + 1;
-          if (nextStep >= processingSteps.length) {
-            clearInterval(interval); // Stop at the last step
-            return prevState;
-          }
-          return { ...prevState, step: nextStep };
-        });
-      }, 1200); // Change step every 1.2 seconds
-    }
-    return () => clearInterval(interval);
-  }, [processingState.active]);
+useEffect(() => {
+  let interval;
+  if (processingState.active) {
+    interval = setInterval(() => {
+      setProcessingState(prevState => {
+        const nextStep = prevState.step + 1;
+        if (nextStep >= processingSteps.length) {
+          clearInterval(interval); // Stop at the last step
+          return prevState;
+        }
+        return { ...prevState, step: nextStep };
+      });
+    }, 1200);
+  }
+  return () => clearInterval(interval);
+}, [processingState.active, processingSteps.length]); // ✅ fixed dependencies
+
 
 
   useEffect(() => {
